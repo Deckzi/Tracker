@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Привычкин — Трекер привычек</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<!-- ── Auth Screen ─────────────────────────────────────────────────────── -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <span class="char">🌱</span>
+      <h1>Привычкин</h1>
+      <p>Строй лучшую версию себя — день за днём</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Вход</button>
+      <button class="auth-tab" data-tab="register">Регистрация</button>
+    </div>
+
+    <!-- Login -->
+    <div id="login-form" class="auth-form">
+      <div class="form-group">
+        <label>Логин</label>
+        <input type="text" id="login-username" placeholder="test" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" id="login-password" placeholder="test1234" autocomplete="current-password" />
+      </div>
+      <button class="btn-primary" id="login-btn">Войти</button>
+    </div>
+
+    <!-- Register -->
+    <div id="register-form" class="auth-form" style="display:none">
+      <div class="form-group">
+        <label>Логин</label>
+        <input type="text" id="reg-username" placeholder="имя_пользователя" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" id="reg-password" placeholder="минимум 8 симв., 1 цифра" autocomplete="new-password" />
+      </div>
+      <button class="btn-primary" id="register-btn">Создать аккаунт</button>
+    </div>
+
+    <p class="auth-hint">Тестовый аккаунт: <span>test / test1234</span></p>
+  </div>
+</div>
+
+<!-- ── App Screen ──────────────────────────────────────────────────────── -->
+<div id="app-screen" style="display:none">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <!-- Header -->
+    <div class="sidebar-header">
+      <div class="sidebar-logo">Привычкин</div>
+      <div class="sidebar-actions">
+        <button class="icon-btn" id="theme-toggle" data-tip="Сменить тему">☀️</button>
+        <button class="icon-btn" id="export-btn" data-tip="Экспорт JSON">📤</button>
+      </div>
+    </div>
+
+    <!-- Character + Mini Stats -->
+    <div class="char-stats-row">
+      <div class="character-wrap">
+        <span class="character" id="character">😐</span>
+        <div class="char-mood" id="char-mood">просыпается</div>
+      </div>
+      <div class="mini-stats">
+        <div class="mini-stat">
+          <span class="mini-stat-label">Сегодня</span>
+          <span class="mini-stat-value accent" id="stat-done">0/0</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-label">Рекорд</span>
+          <span class="mini-stat-value" id="stat-best">🔥 0д</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>Прогресс дня</span>
+        <span class="progress-pct" id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Milestones -->
+    <div id="milestones"></div>
+
+    <!-- User Info -->
+    <div class="user-info">
+      <span class="username-tag" id="username-tag">Привет, <span>—</span></span>
+      <button class="btn-logout" id="logout-btn">Выйти</button>
+    </div>
+
+    <!-- Add Habit -->
+    <div class="add-habit-section">
+      <div class="section-title">Новая привычка</div>
+      <div class="add-habit-form">
+        <input
+          type="text"
+          class="habit-input"
+          id="new-habit-input"
+          placeholder="Например: Читать 30 мин"
+          maxlength="80"
+        />
+        <button class="btn-add" id="add-habit-btn">+ Добавить</button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Overlay (mobile) -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <div class="main-header">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+        <h2 class="main-title">Мои <span>привычки</span></h2>
+      </div>
+      <div class="date-badge" id="date-badge"></div>
+    </div>
+
+    <!-- Habits List -->
+    <div id="habits-list">
+      <div class="loading-overlay"><div class="spinner"></div></div>
+    </div>
+
+    <!-- Weekly Chart -->
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">📊 Неделя в цифрах</div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="week-chart"></canvas>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
